@@ -80,13 +80,16 @@ service_config = {
 def get_format_from_filetype(service='pastebin'):
     ft = vim.eval('&ft')
     for name in service_config[service]['filetypes']:
+        if ft == service_config[service]['filetypes'][name]:
+            return name
+    for name in service_config[service]['filetypes']:
         if ft in service_config[service]['filetypes'][name]:
             return name
     return 'text'
 
 def get_user():
     if user == 'auto':
-        if sys.platform == 'linux2':
+        if sys.platform == 'linux2' or sys.platform == 'sunos5':
             return os.getenv('USER')
         if sys.platform == 'win32':
             return os.getenv('USERNAME')
